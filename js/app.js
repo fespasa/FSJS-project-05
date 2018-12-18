@@ -27,6 +27,24 @@ $(document).ready(function(){
 
 			$('#gallery').append($cardHTML);
 			
+			
+			// Birthday date fixed to make it more readable 
+			var birthday = value.dob.date;
+			var year = "";
+			var month = "";
+			var day = "";
+			for(var i = 0; i < 4; i++){
+				year += birthday[i];
+			}
+			for(var i = 5; i < 7; i++){
+				month += birthday[i];
+			}
+			for(var i = 8; i < 10; i++){
+				day += birthday[i];
+			}
+			var okBirthday = day + "/" + month + "/" + year;
+			console.log(birthday + " -> " + okBirthday);
+			// end of fixing
 						
 			var $cardModal = '<div class="modal-container" id="modal-'+ index +'"><div class="modal"><button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button><div class="modal-info-container">';
 			$cardModal += '<img class="modal-img" src="'+ value.picture.medium +'" alt="profile picture">';
@@ -35,8 +53,8 @@ $(document).ready(function(){
 			$cardModal += '<p class="modal-text cap">'+ value.location.city +', '+ value.location.state +'</p><hr>';
 			$cardModal += '<p class="modal-text">'+ value.cell +'</p>';
 			$cardModal += '<p class="modal-text">'+ value.location.street +'</p>';
-			$cardModal += '<p class="modal-text">Birthday: '+ value.dob.date +'</p>';
-			$cardModal += '<button type="button" name="Prev" class="modal-prev-btn" style="padding= 5px; margin= 10px;">Prev</button><button type="button" class="modal-next-btn" style="padding= 5px; margin= 10px;">Next</button>'
+			$cardModal += '<p class="modal-text">Birthday: '+ okBirthday +'</p>';
+			$cardModal += '<div class="modal-btn-container"><button type="button" name="Prev" class="modal-prev-btn btn" style="padding= 5px; margin= 10px;">Prev</button><button type="button" class="modal-next-btn btn" style="padding= 5px; margin= 10px;">Next</button></div>'
 			$cardModal += '</div></div>';
 			
 			$('body').append($cardModal);
