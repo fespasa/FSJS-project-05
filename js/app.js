@@ -3,7 +3,7 @@ $(document).ready(function(){
 	alert('Document is ready!');
 	
 	/* ------------- Search Markup Creation ------------- */
-	$('.search-container').append('<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit"></form>'); // we create the Search Profile
+	$('.search-container').append('<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>'); // we create the Search Profile
 	
 	
 	/* ------------- Display Cards ------------- */
@@ -20,7 +20,7 @@ $(document).ready(function(){
 			$cardHTML += '<div class="card-img-container">';
 			$cardHTML += '<img class="card-img" src="'+ value.picture.thumbnail +'" alt="profile picture">';
 			$cardHTML += '</div><div class="card-info-container>';
-			$cardHTML += '<h3 id="name" class="card-name cap">'+ value.name.first + ' '+ value.name.last +'</h3>';
+			$cardHTML += '<h3 id="name" class="card-name cap"><span class="cap">' + value.name.first +'</span>'+' '+'<span class="cap">'+ value.name.last +'</span>' +'</h3>';
 			$cardHTML += '<p class="card-text">'+ value.email +'</p>';
 			$cardHTML += '<p class="card-text cap">'+ value.location.city +', '+ value.location.state +'</p>';
 			$cardHTML += '</div></div>';
@@ -46,6 +46,7 @@ $(document).ready(function(){
 			console.log(birthday + " -> " + okBirthday);
 			// end of fixing
 						
+			/* ------------- Modal Creation ------------- */
 			var $cardModal = '<div class="modal-container" id="modal-'+ index +'"><div class="modal"><button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button><div class="modal-info-container">';
 			$cardModal += '<img class="modal-img" src="'+ value.picture.medium +'" alt="profile picture">';
 			$cardModal += '<h3 id="name" class="modal-name cap">'+ value.name.first + ' ' + value.name.last +'</h3>';
@@ -56,9 +57,10 @@ $(document).ready(function(){
 			$cardModal += '<p class="modal-text">Birthday: '+ okBirthday +'</p>';
 			$cardModal += '<div class="modal-btn-container"><button type="button" name="Prev" class="modal-prev-btn btn" style="padding= 5px; margin= 10px;">Prev</button><button type="button" class="modal-next-btn btn" style="padding= 5px; margin= 10px;">Next</button></div>'
 			$cardModal += '</div></div>';
-			
+			// append modal html to the html body
 			$('body').append($cardModal);
 			
+			// closing modal window button utility
 			$('.modal-close-btn').click(function(){
 				$('.modal-container').css('display', 'none');
 			});
@@ -67,8 +69,10 @@ $(document).ready(function(){
 			
 		}); // end each
 		
+		// hide all modals 
 		$('.modal-container').css('display', 'none');
 		
+		// show modal when you click the card.
 		$.each($('.card'), function(index, card){
 			console.log("I'm on card nº "+ index);
 			$(this).on("click", function(){
@@ -79,6 +83,10 @@ $(document).ready(function(){
 			});
 		});
 		
+		
+		/* ------------- Modal Navigation Buttons ------------- */
+		
+		// PREV Button
 		$.each($('.modal-prev-btn'), function(index, button){
 			$(this).on("click", function(){
 				console.log("Prev Button Pressed");
@@ -93,6 +101,7 @@ $(document).ready(function(){
 			});
 		});
 		
+		// NEXT Button
 		$.each($('.modal-next-btn'), function(index, button){
 			$(this).on("click", function(){
 				console.log("Next Button Pressed");
@@ -106,10 +115,45 @@ $(document).ready(function(){
 				modal.css('display', 'block');
 			});
 		});
-
-	}); // end getJSON
-	
-	
 		
+		
+	}); // end getJSON
+		 
+		 
+		/* ------------- Filter of users ------------- */
+    
+		const searchInput = $('#search-input');
+    
+		$('#search-submit').on('click', function(event){
+	    	alert("I'm submitting!");
+			searchUser(searchInput.prop('value').toLowerCase());
+    	});
+    	
+    	// function to filter users in the display.
+		function searchUser(user) {
+			var usersFound = 0;
+			$.each(document.querySelectorAll('#name'), function(index, name){
+				console.log(name);
+				nameText = name.innerText;
+				console.log(nameText);
+				if(nameText.indexOf(user) === 0){
+					$('#card-'+ index).css('display', 'block');
+					usersFound++;
+				} else {
+					$('#card-'+ index).css('display', 'none');
+				}
+			});
+			if(usersFound === 0){
+				$.each($('.card'), function(index, card){
+					$(this).css('display', 'block');
+				});
+				alert("User " + user + ' not found! :(');
+				//change background css property
+				$('body').css('background-color', '#F5A9A9');
+			} else {
+				$('body').css('background-color', '#A9F5BC');
+			}
+		}	
+
 		
 }); // end ready
