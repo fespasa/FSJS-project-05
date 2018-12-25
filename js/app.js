@@ -3,6 +3,8 @@ $(document).ready(function(){
 	/* ------------- Search Markup Creation ------------- */
 	$('.search-container').append('<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>'); // we create the Search Profile
 	
+	// Change font color to blue
+	$('body').css('color', 'blue');
 	
 	/* ------------- Display Cards ------------- */
 	var randomUserAPI = "https://randomuser.me/api/?results=12";
@@ -122,7 +124,6 @@ $(document).ready(function(){
 		const searchInput = $('#search-input');
     
 		$('#search-submit').on('click', function(event){
-	    	alert("I'm submitting!");
 			searchUser(searchInput.prop('value').toLowerCase());
     	});
     	
@@ -148,12 +149,12 @@ $(document).ready(function(){
 			if(usersFound === 0){
 				// if the user is not found it shows all the users and it changes the background color  to green. 
 				showAllCards();
-				alert("User " + user + ' not found! :(');
 				//change background css property
 				$('body').addClass('searchFailed');
 				setTimeout(()=>{
 					$('body').removeClass('searchFailed');
 				}, 1500);
+				alert('User "' + user + '" not found! :(');
 			} else {
 				//change background css property
 				$('body').addClass('searchSuccess');
