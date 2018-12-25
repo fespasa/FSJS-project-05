@@ -1,7 +1,5 @@
 $(document).ready(function(){
 	
-	alert('Document is ready!');
-	
 	/* ------------- Search Markup Creation ------------- */
 	$('.search-container').append('<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>'); // we create the Search Profile
 	
@@ -9,12 +7,12 @@ $(document).ready(function(){
 	/* ------------- Display Cards ------------- */
 	var randomUserAPI = "https://randomuser.me/api/?results=12";
 
+	// getJSON fetch
 	$.getJSON(randomUserAPI, function(response){
-		console.log(response);
-		console.log($.type(response));
 		
 		console.log(response.results);
 		
+		/* ------------- Card Creation ------------- */
 		$.each(response.results, function(index, value){
 			var $cardHTML = '<div class="card" id="card-'+ index +'">';
 			$cardHTML += '<div class="card-img-container">';
@@ -74,7 +72,6 @@ $(document).ready(function(){
 		
 		// show modal when you click the card.
 		$.each($('.card'), function(index, card){
-			console.log("I'm on card nº "+ index);
 			$(this).on("click", function(){
 				console.log(card);
 				var modal = $('#modal-'+index);
@@ -129,6 +126,11 @@ $(document).ready(function(){
 			searchUser(searchInput.prop('value').toLowerCase());
     	});
     	
+    	//Created a button to show all cards when needed.
+    	const $showAllButton = '<div class="bottom-btn"><button type="button" id="show-all-btn" class="btn">Show All Cards</btn></div>'
+    	$('body').append($showAllButton);
+    	$('#show-all-btn').css('display', 'none');
+    	
     	// function to filter users in the display.
 		function searchUser(user) {
 			var usersFound = 0;
@@ -144,16 +146,35 @@ $(document).ready(function(){
 				}
 			});
 			if(usersFound === 0){
-				$.each($('.card'), function(index, card){
-					$(this).css('display', 'block');
-				});
+				// if the user is not found it shows all the users and it changes the background color  to green. 
+				showAllCards();
 				alert("User " + user + ' not found! :(');
 				//change background css property
-				$('body').css('background-color', '#F5A9A9');
+				$('body').addClass('searchFailed');
+				setTimeout(()=>{
+					$('body').removeClass('searchFailed');
+				}, 1500);
 			} else {
-				$('body').css('background-color', '#A9F5BC');
+				//change background css property
+				$('body').addClass('searchSuccess');
+				setTimeout(()=>{
+					$('body').removeClass('searchSuccess');
+				}, 1500);
+				$('#show-all-btn').css('display', 'block');
 			}
 		}	
-
+		
+		// Function when it clicks show all cards button.
+		$('#show-all-btn').on('click', function(event){
+	    	showAllCards();
+	    	$('#show-all-btn').css('display', 'none');
+    	});
+		
+		// function to show all cards again
+		function showAllCards(){
+			$.each($('.card'), function(index, card){
+				$(this).css('display', 'block');
+			});
+		}
 		
 }); // end ready

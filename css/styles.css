@@ -17,6 +17,7 @@ body {
     font-family: "Nunito", sans-serif;
     text-align: center;
     background: rgba(235, 235, 235, 0.9);
+    transition: .7s ease-out; /* I have added a transition in the body to make the return to original body background color smoother */
 }
 
 header {
@@ -260,4 +261,26 @@ header h1 {
         background: rgba(255, 255, 255, 1);
         color: rgba(25, 25, 25, 1); 
     }
+}
+
+/* ===================================== 
+   Ferran new styles
+======================================== */
+
+.searchSuccess {
+	background-color: #A9F5BC;
+	transition: .7s ease-out;
+}
+
+.searchFailed {
+	background-color: #F5A9A9;
+	transition: .7s ease-out;
+}
+
+#show-all-btn {
+	margin: 0 auto;
+	margin-top: 15px;
+	padding: 7px;
+	color: #FFF;
+	background-color: #000;
 }
